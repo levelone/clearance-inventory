@@ -4,6 +4,13 @@ class Item < ApplicationRecord
   REGULAR_MIN_PRICE = 2.0
   SPECIAL_MIN_PRICE = 5.0
 
+  STATUSES = [
+    "sellable",
+    "not sellable",
+    "sold",
+    "clearanced"
+  ].freeze
+
   belongs_to :style
   belongs_to :clearance_batch
   delegate :name, :type, :wholesale_price, to: :style, prefix: true
@@ -11,6 +18,7 @@ class Item < ApplicationRecord
   scope :sellable, -> { where(status: 'sellable') }
 
   validate :minimum_selling_price
+  validates_inclusion_of :status, in: STATUSES, message: "must be either #{STATUSES.join(', ')}"
 
   def clearance!
     update_attributes!(
