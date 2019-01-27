@@ -15,6 +15,12 @@ class ClearanceBatchesController < ApplicationController
   end
 
   def create
+    if params[:csv_batch_file].blank?
+      flash[:alert] = "Batch file is missing!"
+      redirect_to action: :index
+      return
+    end
+
     clearancing_status = ClearancingService.new.process_file(params[:csv_batch_file].tempfile)
     clearance_batch    = clearancing_status.clearance_batch
     alert_messages     = []

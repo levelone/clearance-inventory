@@ -7,7 +7,7 @@ module CsvHelper
   #   Arrays of strings (for bogus rows)
   def generate_csv_file(items)
     tmp_file_name = "#{Rails.root}/tmp/batch_#{Time.now.to_i}.csv"
-    attributes = %i{id size color status style_type style_name style_id created_at updated_at}
+    attributes = %i{id size color status style_type style_name style_id created_at updated_at price_sold}
 
     CSV.open(tmp_file_name, "wb") do |csv|
       items.each do |item|

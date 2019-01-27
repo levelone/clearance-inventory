@@ -1,27 +1,28 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>TakeHomeChallenge</title>
-  <%= stylesheet_link_tag    'application', media: 'all' %>
-  <%= javascript_include_tag 'application' %>
-  <%= csrf_meta_tags %>
-</head>
-<body>
-
-<div class="container">
-  <h1>First Circle Inventory Management</h1>
-  <%- if flash[:notice] -%>
-    <div class="alert alert-info" role="alert">
-      <%= flash[:notice].html_safe %>
+  <head>
+    <title>TakeHomeChallenge</title>
+    <%= stylesheet_link_tag    "application", media: "all" %>
+    <%= javascript_include_tag "application" %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body>
+    <div class="container">
+      <div class="jumbotron">
+        <div>
+          <h1>
+            <i class="glyphicon glyphicon-tasks"></i>
+            First Circle Inventory Management
+          </h1>
+        </div>
+        <p class="lead">
+          This application currently handles the clearance task in a very basic way.
+          A spreadsheet containing a list of item ids is uploaded and those items are clearanced as a batch.
+          Items can only be sold at clearance if their status is "sellable".
+          When the item is clearanced, we sell it at 75% of the wholesale price, and record that as "price sold".
+        </p>
+      </div>
+      <%= yield %>
     </div>
-  <%- end -%>
-  <%- if flash[:alert] -%>
-    <div class="alert alert-danger" role="alert">
-      <%= flash[:alert].html_safe %>
-    </div>
-  <%- end -%>
-  <%= yield %>
-</div>
-
-</body>
+  </body>
 </html>

@@ -12,7 +12,7 @@ describe "add new monthly clearance_batch" do
       it "displays a list of all past clearance batches" do
         visit "/"
         expect(page).to have_content("First Circle Inventory Management")
-        expect(page).to have_content("Clearance Batches")
+        expect(page).to have_content("Have an existing clearance batch file?")
         within('table.clearance_batches') do
           expect(page).to have_content("Clearance Batch #{clearance_batch_1.id}")
           expect(page).to have_content("Clearance Batch #{clearance_batch_2.id}")
@@ -33,7 +33,7 @@ describe "add new monthly clearance_batch" do
             expect(page).not_to have_content(/Clearance Batch \d+/)
           end
           attach_file("Select batch file", file_name)
-          click_button "upload batch file"
+          click_button "Upload file"
           new_batch = ClearanceBatch.first
           expect(page).to have_content("#{items.count} items clearanced in batch #{new_batch.id}")
           expect(page).not_to have_content("item ids raised errors and were not clearanced")
@@ -55,7 +55,7 @@ describe "add new monthly clearance_batch" do
             expect(page).not_to have_content(/Clearance Batch \d+/)
           end
           attach_file("Select batch file", file_name)
-          click_button "upload batch file"
+          click_button "Upload file"
           new_batch = ClearanceBatch.first
           expect(page).to have_content("#{valid_items.count} items clearanced in batch #{new_batch.id}")
           expect(page).to have_content("#{invalid_items.count} item ids raised errors and were not clearanced")
@@ -76,7 +76,7 @@ describe "add new monthly clearance_batch" do
             expect(page).not_to have_content(/Clearance Batch \d+/)
           end
           attach_file("Select batch file", file_name)
-          click_button "upload batch file"
+          click_button "Upload file"
           expect(page).not_to have_content("items clearanced in batch")
           expect(page).to have_content("No new clearance batch was added")
           expect(page).to have_content("#{invalid_items.count} item ids raised errors and were not clearanced")

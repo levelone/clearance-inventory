@@ -1,0 +1,46 @@
+.clearance-container {
+
+  .bs-dropzone {
+    margin-bottom: 1.875rem;
+
+    .import-drop-target {
+      border: 0.125rem dashed #eee;
+      border-radius: 0.25rem;
+      color: #777;
+      padding: 1.25rem;
+      position: relative;
+      text-align: center;
+
+      .import-header {
+        margin-bottom: 1rem;
+      }
+
+      .import-header i {
+        font-size: 3rem;
+      }
+
+      .lead {
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .form-group {
+        margin-bottom: 1rem;
+      }
+
+      .file-upload-container {
+        display: block;
+        margin: 0 auto;
+      }
+    }
+  }
+
+  .table > tbody > tr > td {
+    vertical-align: middle;
+
+    &:last-child {
+      text-align: right;
+    }
+  }
+
+}

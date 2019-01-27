@@ -19,7 +19,7 @@ describe ClearancingService do
       end
 
       it "encounters no errors" do
-        expect(@clearancing_status.errors.empty?).to be true 
+        expect(@clearancing_status.errors.empty?).to be true
       end
 
       it "adds all the items to the batch" do
@@ -113,7 +113,7 @@ describe ClearancingService do
       end
     end
 
-    context "when items empty" do
+    context "when items missing" do
       before { @clearance_export_data = clearancing_service.export_csv!([]) }
 
       it "returns an empty string" do
