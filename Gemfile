@@ -15,4 +15,6 @@ group :test, :development do
   gem "database_cleaner", git: "https://github.com/bmabey/database_cleaner.git", ref: "4c2408ffdbbd990e78d6590f4ef6ba5e58aca673"
   gem "ruby_css_lint"
   gem "selenium-webdriver"
+  gem "pry-byebug"
+  gem "awesome_print"
 end
