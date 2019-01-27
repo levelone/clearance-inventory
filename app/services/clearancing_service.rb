@@ -4,7 +4,7 @@ class ClearancingService
 
   def process_file(uploaded_file)
     clearancing_status      = create_clearancing_status
-    CSV.foreach(uploaded_file, headers: false) do |row|  
+    CSV.foreach(uploaded_file, headers: false) do |row|
       potential_item_id = row[0].to_i
       clearancing_error = what_is_the_clearancing_error?(potential_item_id)
       if clearancing_error
@@ -14,13 +14,25 @@ class ClearancingService
       end
     end
 
-    clearance_items!(clearancing_status) 
+    clearance_items!(clearancing_status)
+  end
+
+  def export_csv!(clearance_batch)
+    return if clearance_batch.blank?
+    items = clearance_batch.items.includes(:style)
+    attributes = %i{id size color status style_type style_name price_sold created_at updated_at}
+
+    CSV.generate(headers: false) do |csv|
+      items.each do |item|
+        csv << attributes.map { |attr| item.send(attr) }
+      end
+    end
   end
 
 private
 
   def clearance_items!(clearancing_status)
-    if clearancing_status.item_ids_to_clearance.any? 
+    if clearancing_status.item_ids_to_clearance.any?
       Item.transaction do
         clearancing_status.clearance_batch.save!
         clearancing_status.item_ids_to_clearance.each do |item_id|
@@ -35,17 +47,17 @@ private
 
   def what_is_the_clearancing_error?(potential_item_id)
     if potential_item_id.blank? || potential_item_id == 0 || !potential_item_id.is_a?(Integer)
-      return "Item id #{potential_item_id} is not valid"      
+      return "Item id #{potential_item_id} is not valid"
     end
     if Item.where(id: potential_item_id).none?
-      return "Item id #{potential_item_id} could not be found"      
+      return "Item id #{potential_item_id} could not be found"
     end
     if Item.sellable.where(id: potential_item_id).none?
       return "Item id #{potential_item_id} could not be clearanced"
     end
 
     return nil
-    
+
   end
 
   def create_clearancing_status

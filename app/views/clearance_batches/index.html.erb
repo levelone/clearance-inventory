@@ -14,6 +14,7 @@
       <th></th>
       <th>Date clearanced</th>
       <th>Number of items clearanced</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
@@ -22,6 +23,7 @@
         <td>Clearance Batch <%= clearance_batch.id %></td>
         <td><%= l(clearance_batch.created_at, format: :short) %></td>
         <td><%= clearance_batch.items.count %></td>
+        <td><%= link_to 'Export', clearance_batches_path(id: clearance_batch.id, format: :csv), class: 'btn btn-success' %></td>
       </tr>
     <%- end -%>
   </tbody>

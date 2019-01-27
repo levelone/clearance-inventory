@@ -1,7 +1,17 @@
 class ClearanceBatchesController < ApplicationController
-
   def index
-    @clearance_batches  = ClearanceBatch.all
+    @clearance_batches = ClearanceBatch.all
+
+    if params[:id].present?
+      clearance_batch = ClearanceBatch.find_by(id: params[:id])
+      clearance_export_data = ClearancingService.new.export_csv!(clearance_batch)
+      filename = "clearance-batch-#{clearance_batch.id}-#{Time.zone.now.to_i}.csv"
+    end
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data clearance_export_data, filename: filename }
+    end
   end
 
   def create
@@ -20,5 +30,4 @@ class ClearanceBatchesController < ApplicationController
     flash[:alert] = alert_messages.join("<br/>") if alert_messages.any?
     redirect_to action: :index
   end
-
 end
