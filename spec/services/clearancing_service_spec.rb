@@ -85,4 +85,42 @@ describe ClearancingService do
       end
     end
   end
+
+  describe "::export_csv!" do
+    context "when items exist" do
+      let(:items) { 5.times.map { FactoryGirl.create(:item) } }
+      let(:clearance_batch) { FactoryGirl.create(:clearance_batch, items: items) }
+      let(:item_color) { "Blue" }
+      let(:item_status) { "sellable" }
+
+      before do
+        @clearance_export_data = clearancing_service.export_csv!(clearance_batch)
+      end
+
+      it "returns a string" do
+        expect(@clearance_export_data).to be_a(String)
+      end
+
+      it "returns items size" do
+        expect(clearance_batch.items.size).to eq(5)
+        expect(@clearance_export_data.scan(/#{item_color}/).size).to eq(5)
+        expect(@clearance_export_data.scan(/#{item_status}/).size).to eq(5)
+      end
+
+      it "returns items information" do
+        expect(@clearance_export_data.scan(/#{item_color}/)).to match_array(items.map(&:color))
+        expect(@clearance_export_data.scan(/#{item_status}/)).to match_array(items.map(&:status))
+      end
+    end
+
+    context "when items empty" do
+      before { @clearance_export_data = clearancing_service.export_csv!([]) }
+
+      it "returns an empty string" do
+        expect(@clearance_export_data.size).to eq 0
+        expect(@clearance_export_data).to eq ""
+      end
+    end
+  end
+
 end

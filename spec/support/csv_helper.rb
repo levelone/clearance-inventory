@@ -5,18 +5,21 @@ module CsvHelper
   #   Item objects (for legit CSV rows)
   # or
   #   Arrays of strings (for bogus rows)
-  def generate_csv_file(item_rows)
+  def generate_csv_file(items)
     tmp_file_name = "#{Rails.root}/tmp/batch_#{Time.now.to_i}.csv"
+    attributes = %i{id size color status style_type style_name style_id created_at updated_at}
+
     CSV.open(tmp_file_name, "wb") do |csv|
-      item_rows.each do |item_row|
-        if item_row.kind_of?(Item)
-          csv << [item_row.id, item_row.size, item_row.color, item_row.status, '', '', item_row.style_id, item_row.created_at, item_row.updated_at]
+      items.each do |item|
+        if item.kind_of?(Item)
+          csv << attributes.map { |attr| item.send(attr) }
         else
           # assumes an array of strings
-          csv << item_row
+          csv << item
         end
-      end 
+      end
     end
+
     tmp_file_name
   end
 

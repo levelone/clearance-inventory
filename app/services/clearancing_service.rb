@@ -18,9 +18,9 @@ class ClearancingService
   end
 
   def export_csv!(clearance_batch)
-    return if clearance_batch.blank?
+    return "" if clearance_batch.try(:items).blank?
     items = clearance_batch.items.includes(:style)
-    attributes = %i{id size color status style_type style_name price_sold created_at updated_at}
+    attributes = %i{id size color status style_type style_name style_id created_at updated_at}
 
     CSV.generate(headers: false) do |csv|
       items.each do |item|

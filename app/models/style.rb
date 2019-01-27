@@ -1,8 +1,5 @@
 class Style < ApplicationRecord
 
-  self.inheritance_column = :_type_disabled
-  has_many :items
-
   TYPES = {
     dress: "Dress",
     pants: "Pants",
@@ -13,5 +10,8 @@ class Style < ApplicationRecord
 
   SPECIALS = TYPES.slice(:dress, :pants).freeze
   REGULARS = TYPES.slice(:scarf, :sweater, :top).freeze
+
+  self.inheritance_column = :_type_disabled
+  has_many :items
 
 end
